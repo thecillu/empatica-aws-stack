@@ -5,7 +5,7 @@ resource "aws_appautoscaling_target" "ecs_tg" {
   resource_id        = "service/${aws_ecs_cluster.empatica_ecs_cluster.name}/${aws_ecs_service.empatica_ecs_service.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   min_capacity       = 1
-  max_capacity       = 3
+  max_capacity       = 2
 }
 
 # Automatically scale capacity up by one
@@ -17,7 +17,7 @@ resource "aws_appautoscaling_policy" "up" {
 
   step_scaling_policy_configuration {
     adjustment_type         = "ChangeInCapacity"
-    cooldown                = 60
+    cooldown                = 3
     metric_aggregation_type = "Maximum"
 
     step_adjustment {
@@ -38,7 +38,7 @@ resource "aws_appautoscaling_policy" "down" {
 
   step_scaling_policy_configuration {
     adjustment_type         = "ChangeInCapacity"
-    cooldown                = 60
+    cooldown                = 3
     metric_aggregation_type = "Maximum"
 
     step_adjustment {
@@ -54,7 +54,7 @@ resource "aws_appautoscaling_policy" "down" {
 resource "aws_cloudwatch_metric_alarm" "service_cpu_high" {
   alarm_name          = "empatica_cpu_utilization_high"
   comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = "2"
+  evaluation_periods  = "1"
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ECS"
   period              = "60"
@@ -73,10 +73,10 @@ resource "aws_cloudwatch_metric_alarm" "service_cpu_high" {
 resource "aws_cloudwatch_metric_alarm" "service_cpu_low" {
   alarm_name          = "empatica_cpu_utilization_low"
   comparison_operator = "LessThanOrEqualToThreshold"
-  evaluation_periods  = "2"
+  evaluation_periods  = "1"
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ECS"
-  period              = "60"
+  period              =  "60"
   statistic           = "Average"
   threshold           = "10"
 
