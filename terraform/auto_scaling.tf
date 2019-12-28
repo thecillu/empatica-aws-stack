@@ -4,8 +4,8 @@ resource "aws_appautoscaling_target" "ecs_tg" {
   service_namespace  = "ecs"
   resource_id        = "service/${aws_ecs_cluster.empatica_ecs_cluster.name}/${aws_ecs_service.empatica_ecs_service.name}"
   scalable_dimension = "ecs:service:DesiredCount"
-  min_capacity       = 1
-  max_capacity       = 2
+  min_capacity       = 2
+  max_capacity       = 4
 }
 
 # Automatically scale capacity up by one
@@ -17,7 +17,7 @@ resource "aws_appautoscaling_policy" "up" {
 
   step_scaling_policy_configuration {
     adjustment_type         = "ChangeInCapacity"
-    cooldown                = 3
+    cooldown                = 1
     metric_aggregation_type = "Maximum"
 
     step_adjustment {
@@ -38,7 +38,7 @@ resource "aws_appautoscaling_policy" "down" {
 
   step_scaling_policy_configuration {
     adjustment_type         = "ChangeInCapacity"
-    cooldown                = 3
+    cooldown                = 1
     metric_aggregation_type = "Maximum"
 
     step_adjustment {
