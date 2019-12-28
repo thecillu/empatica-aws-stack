@@ -23,7 +23,7 @@ variable "cidr_block" {
 
 variable "image_version" {
   description = "Docker image version (tag, branch or commit) to run in the ECS cluster"
-  default = "0.0.5"
+  default = "0.0.8"
 }
 
 variable "app_port" {
