@@ -7,11 +7,11 @@ In details, the Terraform configuration:
 1. Create a VPC
 2. Create the public subnets and the related Internet Gateway and Routing Tables
 3. Create the public subnets and the related NAT Gateways and Routing Tables
-4. Create and ECS Cluster (Fargate) which host the RESTFul server Docker Image and deploy it in the private subnets
+4. Create and ECS Cluster (Fargate) which host the RESTFul server Docker Image and deploy into the private subnets
 5. Configure the Autoscaling policies for the ECS Cluster
 6. Create an Application Load Balancer which Listen on port 80 and forward the request to the ECS Target Groups
-7. Create a Mysql RDS Instance and a defult database
-8. Create the neeed Security Groups for the flow ALB --> ECS and ECS --> RDS
+7. Create a Mysql RDS Instance and a default database
+8. Create the needed Security Groups for the flow ALB --> ECS and ECS --> RDS
 
 
 ## AWS Credentials
