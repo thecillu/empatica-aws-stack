@@ -44,7 +44,7 @@ This Diagram shows the high level architecture:
 
 ![Screenshot](Architecture.png)
 
-##How to Deploy the BE and the FE
+## How to Deploy the BE and the FE
 
 ### Requirements
 
@@ -70,9 +70,13 @@ By Default the deployment Region is `eu-central-1`.
 
 - Change dir to `empatica-server-build/terraform`
 
+- Init the Terraform project with the command:
+
+`terraform init`
+
 - Run the Terraform project to create the AWS CodeBuild project with the command:
 
-`terraform apply`
+`terraform apply -var="aws_region=eu-central-1"`
 
 - Launch the AWS Codebuild to create the create the Docker Image and store in a AWS Registry (ECR):
 
@@ -86,13 +90,19 @@ At the end of the CodeBuild project, the ECR registry will contain the Golang Do
 
 - Change dir to `empatica-aws-stack/terraform`
 
+- Init the Terraform project with the command:
+
+`terraform init`
+
 - Run the Terraform project to create all the AWS Resources for the BE, FE, Database and Deploy the `latest` built Golang Docker Image stored in ECR:
 
-`terraform apply`
+`terraform apply -var="aws_region=eu-central-1`
 
 When completed, Terraform will provide in output the address of the created Load Balancer for the Golang Server deployed in ECS Fargate:
 
 Example: `alb_hostname = empatica-load-balancer-1789365880.eu-central-1.elb.amazonaws.com`
+
+*Wait 1 or 2 minutes until the ALB/ECS Cluster is ready*
 
 Open the browser to the address `http://empatica-load-balancer-1789365880.eu-central-1.elb.amazonaws.com/articles` to get the 3 Articles created by the Database Migration files in the Golang Server.
 
@@ -104,7 +114,6 @@ Open the browser to the address `http://empatica-load-balancer-1789365880.eu-cen
 
 - Change dir to `empatica-webapp`
 
-**IMPORTANT**: Take note of the `ALB address` because we need to configure it in the Angular WebApp later
 - Open the prod environment file to the path `src/environments/environment.prod.ts` and change the variable apiBaseUrl with the ALB address created before:
 
 Example:
@@ -117,13 +126,17 @@ Example:
 
 **4. Build and Deploy the Angular WebApp in the S3 bucket**
 
-- Clone the Project [Empatica WebApp Deployer](thecillu/empatica-webapp-deploy)
+- Clone the Project [Empatica WebApp Deployer](https://github.com/thecillu/empatica-webapp-deploy)
 
 - Change dir to `empatica-webapp-deploy/terraform`
 
+- Init the Terraform project with the command:
+
+`terraform init`
+
 - Run the Terraform project with the command:
 
-`terraform apply`
+`terraform apply -var="aws_region=eu-central-1`
 
 When completed, Terraform will provide in output the website endpoint of the S3 bucket:
 
@@ -142,6 +155,6 @@ http://empatica-webapp.s3-website.eu-central-1.amazonaws.com
 
 You should see the WebApp articles's page:
 
-TODO - INSERT PICTURE
+![Screenshot](Webapp.png)
 
-
+Enjoy!
